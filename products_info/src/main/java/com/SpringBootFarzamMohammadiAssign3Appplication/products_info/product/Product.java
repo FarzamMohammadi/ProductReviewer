@@ -1,6 +1,21 @@
 package com.SpringBootFarzamMohammadiAssign3Appplication.products_info.product;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class Product {
+    @Id
+    @SequenceGenerator(
+            name = "product_sequence",
+            sequenceName = "product_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "product_sequence"
+    )
+
     private Long id;
     private String name;
     private Double price;
