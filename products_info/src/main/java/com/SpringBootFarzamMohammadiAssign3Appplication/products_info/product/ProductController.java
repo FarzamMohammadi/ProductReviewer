@@ -23,6 +23,18 @@ public class ProductController {
         return "products/list";
     }
 
+    @GetMapping("/addNewProduct")
+    public String addNewProductFrom(@ModelAttribute Product product, Model model) {
+        model.addAttribute("product", new Product());
+        return "products/add";
+    }
+    @PostMapping("/addNewProduct")
+    public String addNewProductSubmit(@ModelAttribute Product product, Model model) {
+        addNewProduct(product);
+        return "products/list";
+    }
+
+
     @PostMapping
     public void addNewProduct(@RequestBody Product product){
         productService.addNewProduct(product);
