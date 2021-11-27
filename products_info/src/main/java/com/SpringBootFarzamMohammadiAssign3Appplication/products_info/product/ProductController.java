@@ -31,7 +31,7 @@ public class ProductController {
     @PostMapping("/addNewProduct")
     public String addNewProductSubmit(@ModelAttribute Product product, Model model) {
         addNewProduct(product);
-        return "products/list";
+        return getProducts(model);
     }
 
 
