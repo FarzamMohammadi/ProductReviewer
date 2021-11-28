@@ -24,6 +24,13 @@ public class ProductService {
     public List<Product> getProducts() {
         return productRepository.findAll();
     }
+    public Product getProductById(Long id) {
+        return productRepository.getById(id);
+    }
+
+    public void deleteProduct(Long id){
+        productRepository.deleteById(id);
+    }
 
     public void addNewProduct(Product product){
         Optional<Product> productByName = productRepository.findProductByName(product.getName());
@@ -35,4 +42,14 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    public void updateProduct(Product product) {
+        Product productToUpdate = getProductById(product.getId());
+
+        if (productToUpdate.getName() != null){
+            productRepository.save(product);
+        }
+        else{
+            throw new IllegalStateException("Product does not exist.");
+        }
+    }
 }

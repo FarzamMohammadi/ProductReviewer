@@ -1,5 +1,6 @@
 package com.SpringBootFarzamMohammadiAssign3Appplication.products_info.review;
 
+import com.SpringBootFarzamMohammadiAssign3Appplication.products_info.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,11 +21,16 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping("/listReviews")
-    public String getReviews(@ModelAttribute Review review,Model model) {
-        model.addAttribute("reviews", reviewService.findByProductId(review));
-        String reviewsToShow = reviewService.findByProductId(review);
-        return "reviews/list";
+    @GetMapping("/listReviews/{id}")
+    public String getReviews(@PathVariable("id") Long productId, Model model) {
+        List<List<Review>> reviewsToShow = reviewService.findByProductId(productId);
+        List<Review> productReviews = null;
+        if(reviewsToShow.size() == 1){
+            productReviews = reviewsToShow.get(0);
+            model.addAttribute("reviews", productReviews);
+        }
+
+        return "reviews/productReviews";
     }
 
     @GetMapping("/addNewReview/{id}")
@@ -40,6 +46,18 @@ public class ReviewController {
         return "products/list";
     }
 
+
+    @DeleteMapping("/deleteReview/{id}")
+    public void deleteReview(@PathVariable("id") Long productId){
+        reviewService.deleteReview(productId);
+    }
+
+    @PutMapping("/updateProduct/{id}")
+    public String updateProduct(@PathVariable("id") Long productId){
+        Review review = reviewService.getReviewById(productId);
+        reviewService.updateReview(review);
+        return "products/list";
+    }
 
     @PostMapping
     public void addNewReview(@RequestBody Review review){
